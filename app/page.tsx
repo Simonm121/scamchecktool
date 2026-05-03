@@ -31,24 +31,63 @@ export default function Home() {
     const reasons: string[] = [];
 
     if (!text.trim()) {
-      setResult({ risk: "No message entered", reasons: ["Paste a suspicious message first."] });
+      setResult({
+        risk: "No message entered",
+        reasons: ["Paste a suspicious message first."],
+      });
       return;
     }
 
-    if (text.includes("urgent") || text.includes("immediately") || text.includes("today") || text.includes("now") || text.includes("before")) {
+    if (
+      text.includes("urgent") ||
+      text.includes("immediately") ||
+      text.includes("today") ||
+      text.includes("now") ||
+      text.includes("before")
+    ) {
       reasons.push("Creates urgency or pressure");
     }
 
-    if (text.includes("bank") || text.includes("transfer") || text.includes("send money") || text.includes("payment") || text.includes("account") || text.includes("crypto") || text.includes("gift card")) {
+    if (
+      text.includes("bank") ||
+      text.includes("transfer") ||
+      text.includes("send money") ||
+      text.includes("payment") ||
+      text.includes("account") ||
+      text.includes("crypto") ||
+      text.includes("gift card")
+    ) {
       reasons.push("Mentions money, banking, payment, crypto, or gift cards");
     }
 
-    if (text.includes("mum") || text.includes("dad") || text.includes("son") || text.includes("daughter") || text.includes("new number")) {
+    if (
+      text.includes("mum") ||
+      text.includes("dad") ||
+      text.includes("son") ||
+      text.includes("daughter") ||
+      text.includes("new number")
+    ) {
       reasons.push("Possible impersonation attempt");
     }
 
-    if (text.includes("click") || text.includes("verify") || text.includes("password") || text.includes("login") || text.includes("confirm")) {
+    if (
+      text.includes("click") ||
+      text.includes("verify") ||
+      text.includes("password") ||
+      text.includes("login") ||
+      text.includes("confirm")
+    ) {
       reasons.push("Asks you to click, verify, log in, or share details");
+    }
+
+    if (
+      text.includes("prize") ||
+      text.includes("winner") ||
+      text.includes("refund") ||
+      text.includes("parcel") ||
+      text.includes("delivery failed")
+    ) {
+      reasons.push("Uses common scam wording such as prize, refund, or delivery issue");
     }
 
     const risk =
@@ -65,17 +104,49 @@ export default function Home() {
     const reasons: string[] = [];
 
     if (!url.trim()) {
-      setResult({ risk: "No link entered", reasons: ["Paste a suspicious link first."] });
+      setResult({
+        risk: "No link entered",
+        reasons: ["Paste a suspicious link first."],
+      });
       return;
     }
 
-    if (!url.startsWith("https://")) reasons.push("The link does not start with https://");
-    if (url.includes("@")) reasons.push("The link contains an @ symbol, which can hide the real destination");
-    if (url.includes("login") || url.includes("verify") || url.includes("account") || url.includes("secure")) {
+    if (!url.startsWith("https://")) {
+      reasons.push("The link does not start with https://");
+    }
+
+    if (url.includes("@")) {
+      reasons.push("The link contains an @ symbol, which can hide the real destination");
+    }
+
+    if (
+      url.includes("login") ||
+      url.includes("verify") ||
+      url.includes("account") ||
+      url.includes("secure") ||
+      url.includes("update-payment")
+    ) {
       reasons.push("The link uses login, verify, account, or secure wording");
     }
-    if (url.includes("bit.ly") || url.includes("tinyurl") || url.includes("t.co")) {
+
+    if (
+      url.includes("bit.ly") ||
+      url.includes("tinyurl") ||
+      url.includes("t.co") ||
+      url.includes("shorturl") ||
+      url.includes("ow.ly")
+    ) {
       reasons.push("The link appears to use a URL shortener");
+    }
+
+    if (
+      (url.includes("paypal") && !url.includes("paypal.com")) ||
+      (url.includes("amazon") && !url.includes("amazon.")) ||
+      (url.includes("apple") && !url.includes("apple.com")) ||
+      url.includes("secure-login") ||
+      url.includes("bank")
+    ) {
+      reasons.push("The link may be pretending to be a trusted brand");
     }
 
     const risk =
@@ -89,7 +160,10 @@ export default function Home() {
 
   const analyzeImage = () => {
     if (!imageName) {
-      setResult({ risk: "No image selected", reasons: ["Choose an image first."] });
+      setResult({
+        risk: "No image selected",
+        reasons: ["Choose an image first."],
+      });
       return;
     }
 
@@ -97,7 +171,7 @@ export default function Home() {
       risk: "Needs Review",
       reasons: [
         "Check whether the image comes from a trusted source.",
-        "Look for unusual hands, teeth, text, shadows, reflections, or blurry backgrounds.",
+        "Look for unusual hands, teeth, text, logos, shadows, reflections, or blurry backgrounds.",
         "Reverse image search the picture if it seems suspicious.",
         "This first version checks warning signs only, not full AI detection yet.",
       ],
@@ -117,14 +191,14 @@ export default function Home() {
       ? "border-yellow-200 bg-yellow-50 text-yellow-800"
       : result?.risk === "Low Risk"
       ? "border-green-200 bg-green-50 text-green-800"
-      : "border-gray-200 bg-gray-50 text-gray-800";
+      : "border-slate-200 bg-slate-50 text-slate-800";
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      <header className="border-b bg-white/90 backdrop-blur">
+      <header className="border-b bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
           <div className="flex items-center gap-3">
-            <div className="rounded-2xl bg-blue-600 p-2 text-white">
+            <div className="rounded-2xl bg-blue-600 p-2 text-white shadow-sm">
               <ShieldCheck size={24} />
             </div>
             <div>
@@ -365,6 +439,17 @@ export default function Home() {
                 Simple results help users understand warning signs quickly without technical language.
               </p>
             </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-5 py-10">
+          <div className="rounded-3xl border bg-white p-6 shadow-sm">
+            <h2 className="text-2xl font-black">How ScamCheckTool works</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-600">
+              ScamCheckTool checks common scam warning signs such as urgency, impersonation,
+              suspicious links, requests for money, and unusual image clues. It is designed to give
+              a quick second opinion before you click, reply, or share information.
+            </p>
           </div>
         </section>
 
