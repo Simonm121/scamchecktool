@@ -31,63 +31,24 @@ export default function Home() {
     const reasons: string[] = [];
 
     if (!text.trim()) {
-      setResult({
-        risk: "No message entered",
-        reasons: ["Paste a suspicious message first."],
-      });
+      setResult({ risk: "No message entered", reasons: ["Paste a suspicious message first."] });
       return;
     }
 
-    if (
-      text.includes("urgent") ||
-      text.includes("immediately") ||
-      text.includes("today") ||
-      text.includes("now") ||
-      text.includes("before")
-    ) {
+    if (text.includes("urgent") || text.includes("immediately") || text.includes("today") || text.includes("now") || text.includes("before")) {
       reasons.push("Creates urgency or pressure");
     }
 
-    if (
-      text.includes("bank") ||
-      text.includes("transfer") ||
-      text.includes("send money") ||
-      text.includes("payment") ||
-      text.includes("account") ||
-      text.includes("crypto") ||
-      text.includes("gift card")
-    ) {
+    if (text.includes("bank") || text.includes("transfer") || text.includes("send money") || text.includes("payment") || text.includes("account") || text.includes("crypto") || text.includes("gift card")) {
       reasons.push("Mentions money, banking, payment, crypto, or gift cards");
     }
 
-    if (
-      text.includes("mum") ||
-      text.includes("dad") ||
-      text.includes("son") ||
-      text.includes("daughter") ||
-      text.includes("new number")
-    ) {
+    if (text.includes("mum") || text.includes("dad") || text.includes("son") || text.includes("daughter") || text.includes("new number")) {
       reasons.push("Possible impersonation attempt");
     }
 
-    if (
-      text.includes("click") ||
-      text.includes("verify") ||
-      text.includes("password") ||
-      text.includes("login") ||
-      text.includes("confirm")
-    ) {
+    if (text.includes("click") || text.includes("verify") || text.includes("password") || text.includes("login") || text.includes("confirm")) {
       reasons.push("Asks you to click, verify, log in, or share details");
-    }
-
-    if (
-      text.includes("prize") ||
-      text.includes("winner") ||
-      text.includes("refund") ||
-      text.includes("parcel") ||
-      text.includes("delivery failed")
-    ) {
-      reasons.push("Uses common scam wording such as prize, refund, or delivery issue");
     }
 
     const risk =
@@ -104,49 +65,17 @@ export default function Home() {
     const reasons: string[] = [];
 
     if (!url.trim()) {
-      setResult({
-        risk: "No link entered",
-        reasons: ["Paste a suspicious link first."],
-      });
+      setResult({ risk: "No link entered", reasons: ["Paste a suspicious link first."] });
       return;
     }
 
-    if (!url.startsWith("https://")) {
-      reasons.push("The link does not start with https://");
-    }
-
-    if (url.includes("@")) {
-      reasons.push("The link contains an @ symbol, which can hide the real destination");
-    }
-
-    if (
-      url.includes("login") ||
-      url.includes("verify") ||
-      url.includes("account") ||
-      url.includes("secure") ||
-      url.includes("update-payment")
-    ) {
+    if (!url.startsWith("https://")) reasons.push("The link does not start with https://");
+    if (url.includes("@")) reasons.push("The link contains an @ symbol, which can hide the real destination");
+    if (url.includes("login") || url.includes("verify") || url.includes("account") || url.includes("secure")) {
       reasons.push("The link uses login, verify, account, or secure wording");
     }
-
-    if (
-      url.includes("bit.ly") ||
-      url.includes("tinyurl") ||
-      url.includes("t.co") ||
-      url.includes("shorturl") ||
-      url.includes("ow.ly")
-    ) {
+    if (url.includes("bit.ly") || url.includes("tinyurl") || url.includes("t.co")) {
       reasons.push("The link appears to use a URL shortener");
-    }
-
-    if (
-      (url.includes("paypal") && !url.includes("paypal.com")) ||
-      (url.includes("amazon") && !url.includes("amazon.")) ||
-      (url.includes("apple") && !url.includes("apple.com")) ||
-      url.includes("secure-login") ||
-      url.includes("bank")
-    ) {
-      reasons.push("The link may be pretending to be a trusted brand");
     }
 
     const risk =
@@ -160,10 +89,7 @@ export default function Home() {
 
   const analyzeImage = () => {
     if (!imageName) {
-      setResult({
-        risk: "No image selected",
-        reasons: ["Choose an image first."],
-      });
+      setResult({ risk: "No image selected", reasons: ["Choose an image first."] });
       return;
     }
 
@@ -171,7 +97,7 @@ export default function Home() {
       risk: "Needs Review",
       reasons: [
         "Check whether the image comes from a trusted source.",
-        "Look for unusual hands, teeth, text, logos, shadows, reflections, or blurry backgrounds.",
+        "Look for unusual hands, teeth, text, shadows, reflections, or blurry backgrounds.",
         "Reverse image search the picture if it seems suspicious.",
         "This first version checks warning signs only, not full AI detection yet.",
       ],
@@ -220,12 +146,12 @@ export default function Home() {
 
       <main>
         <section className="bg-gradient-to-b from-blue-50 via-white to-slate-50">
-          <div className="mx-auto max-w-6xl px-5 py-14 text-center">
+          <div className="mx-auto max-w-6xl px-5 py-12 text-center">
             <div className="mx-auto mb-5 inline-flex rounded-full border bg-white px-4 py-2 text-sm text-slate-600 shadow-sm">
               Free scam, phishing link and deepfake warning-sign checker
             </div>
 
-            <h1 className="mx-auto max-w-3xl text-4xl font-black leading-tight tracking-tight md:text-5xl">
+            <h1 className="mx-auto max-w-4xl text-4xl font-black leading-tight tracking-tight md:text-6xl">
               Check if a message, link, or image looks like a scam
             </h1>
 
@@ -480,9 +406,9 @@ export default function Home() {
             >
               Quick Privacy Tools <ExternalLink size={12} />
             </a>
-            <a className="underline" href="#">Privacy Policy</a>
-            <a className="underline" href="#">Terms</a>
-            <a className="underline" href="#">Contact</a>
+            <a className="underline" href="/privacy">Privacy Policy</a>
+            <a className="underline" href="/terms">Terms</a>
+            <a className="underline" href="/contact">Contact</a>
           </div>
         </div>
       </footer>
