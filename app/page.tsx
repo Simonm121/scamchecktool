@@ -35,19 +35,19 @@ export default function Home() {
       return;
     }
 
-    if (text.includes("urgent") || text.includes("immediately") || text.includes("today") || text.includes("now") || text.includes("before")) {
+    if (text.includes("urgent") || text.includes("immediately") || text.includes("today") || text.includes("now")) {
       reasons.push("Creates urgency or pressure");
     }
 
-    if (text.includes("bank") || text.includes("transfer") || text.includes("send money") || text.includes("payment") || text.includes("account") || text.includes("crypto") || text.includes("gift card")) {
-      reasons.push("Mentions money, banking, payment, crypto, or gift cards");
+    if (text.includes("bank") || text.includes("transfer") || text.includes("send money") || text.includes("payment") || text.includes("account")) {
+      reasons.push("Mentions money, banking, payment, or account access");
     }
 
-    if (text.includes("mum") || text.includes("dad") || text.includes("son") || text.includes("daughter") || text.includes("new number")) {
+    if (text.includes("mum") || text.includes("dad") || text.includes("new number")) {
       reasons.push("Possible impersonation attempt");
     }
 
-    if (text.includes("click") || text.includes("verify") || text.includes("password") || text.includes("login") || text.includes("confirm")) {
+    if (text.includes("click") || text.includes("verify") || text.includes("password") || text.includes("login")) {
       reasons.push("Asks you to click, verify, log in, or share details");
     }
 
@@ -99,7 +99,7 @@ export default function Home() {
         "Check whether the image comes from a trusted source.",
         "Look for unusual hands, teeth, text, shadows, reflections, or blurry backgrounds.",
         "Reverse image search the picture if it seems suspicious.",
-        "This first version checks warning signs only, not full AI detection yet.",
+        "This version checks warning signs only, not full AI detection yet.",
       ],
     });
   };
@@ -171,53 +171,25 @@ export default function Home() {
               className="mx-auto mt-10 max-w-3xl rounded-3xl border bg-white p-5 text-left shadow-xl shadow-slate-200/70"
             >
               <div className="mb-4 grid grid-cols-3 gap-2">
-                <button
-                  onClick={() => {
-                    setActiveTool("message");
-                    setResult(null);
-                  }}
-                  className={`rounded-xl px-3 py-3 text-sm font-bold ${
-                    activeTool === "message"
-                      ? "bg-blue-600 text-white"
-                      : "bg-slate-100 text-slate-700"
-                  }`}
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <MessageSquare size={16} /> Message
-                  </span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setActiveTool("link");
-                    setResult(null);
-                  }}
-                  className={`rounded-xl px-3 py-3 text-sm font-bold ${
-                    activeTool === "link"
-                      ? "bg-blue-600 text-white"
-                      : "bg-slate-100 text-slate-700"
-                  }`}
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <LinkIcon size={16} /> Link
-                  </span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setActiveTool("image");
-                    setResult(null);
-                  }}
-                  className={`rounded-xl px-3 py-3 text-sm font-bold ${
-                    activeTool === "image"
-                      ? "bg-blue-600 text-white"
-                      : "bg-slate-100 text-slate-700"
-                  }`}
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <ImageIcon size={16} /> Image
-                  </span>
-                </button>
+                {["message", "link", "image"].map((tool) => (
+                  <button
+                    key={tool}
+                    onClick={() => {
+                      setActiveTool(tool as "message" | "link" | "image");
+                      setResult(null);
+                    }}
+                    className={`rounded-xl px-3 py-3 text-sm font-bold ${
+                      activeTool === tool ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-700"
+                    }`}
+                  >
+                    <span className="inline-flex items-center gap-2">
+                      {tool === "message" && <MessageSquare size={16} />}
+                      {tool === "link" && <LinkIcon size={16} />}
+                      {tool === "image" && <ImageIcon size={16} />}
+                      {tool.charAt(0).toUpperCase() + tool.slice(1)}
+                    </span>
+                  </button>
+                ))}
               </div>
 
               {activeTool === "message" && (
@@ -256,9 +228,7 @@ export default function Home() {
                     }}
                     className="mt-2 w-full rounded-2xl border p-3 text-sm"
                   />
-                  {imageName && (
-                    <p className="mt-2 text-sm text-slate-600">Selected: {imageName}</p>
-                  )}
+                  {imageName && <p className="mt-2 text-sm text-slate-600">Selected: {imageName}</p>}
                 </>
               )}
 
@@ -266,12 +236,7 @@ export default function Home() {
                 onClick={runCheck}
                 className="mt-4 w-full rounded-2xl bg-blue-600 py-3 font-black text-white shadow-sm hover:bg-blue-700"
               >
-                Analyze{" "}
-                {activeTool === "message"
-                  ? "Message"
-                  : activeTool === "link"
-                  ? "Link"
-                  : "Image"}
+                Analyze {activeTool === "message" ? "Message" : activeTool === "link" ? "Link" : "Image"}
               </button>
 
               <p className="mt-3 text-center text-xs text-slate-500">
@@ -281,14 +246,9 @@ export default function Home() {
               {result && (
                 <div className={`mt-5 rounded-2xl border p-4 ${resultColor}`}>
                   <div className="flex items-center gap-2 font-black">
-                    {result.risk === "Low Risk" ? (
-                      <CheckCircle size={18} />
-                    ) : (
-                      <AlertTriangle size={18} />
-                    )}
+                    {result.risk === "Low Risk" ? <CheckCircle size={18} /> : <AlertTriangle size={18} />}
                     {result.risk}
                   </div>
-
                   <ul className="mt-2 space-y-1 text-sm">
                     {result.reasons.map((reason, index) => (
                       <li key={index}>• {reason}</li>
@@ -301,7 +261,7 @@ export default function Home() {
         </section>
 
         <section className="mx-auto max-w-6xl px-5 py-6">
-          <div className="min-h-[72px]"></div>
+          <div className="min-h-[90px] opacity-0 pointer-events-none select-none"></div>
         </section>
 
         <section className="mx-auto max-w-6xl px-5 py-10">
@@ -367,28 +327,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        <section className="mx-auto max-w-6xl px-5 py-10">
-          <div className="rounded-3xl border bg-white p-6 shadow-sm">
-            <h2 className="text-2xl font-black">How ScamCheckTool works</h2>
-            <p className="mt-3 text-sm leading-6 text-slate-600">
-              ScamCheckTool checks common scam warning signs such as urgency, impersonation,
-              suspicious links, requests for money, and unusual image clues. It is designed to give
-              a quick second opinion before you click, reply, or share information.
-            </p>
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-6xl px-5 py-10">
-          <div className="rounded-3xl border bg-white p-6 shadow-sm">
-            <h2 className="text-2xl font-black">Important disclaimer</h2>
-            <p className="mt-3 text-sm leading-6 text-slate-600">
-              ScamCheckTool gives general warning-sign guidance only. It cannot guarantee that a message,
-              link, image, website, or person is safe or unsafe. If something involves money, passwords,
-              bank details, identity documents or urgent pressure, verify it directly through an official source.
-            </p>
-          </div>
-        </section>
       </main>
 
       <footer className="border-t bg-white px-5 py-8 text-sm text-slate-600">
@@ -399,11 +337,7 @@ export default function Home() {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <a
-              className="inline-flex items-center gap-1 underline"
-              href="https://quickprivacytools.com"
-              target="_blank"
-            >
+            <a className="inline-flex items-center gap-1 underline" href="https://quickprivacytools.com" target="_blank">
               Quick Privacy Tools <ExternalLink size={12} />
             </a>
             <a className="underline" href="/privacy">Privacy Policy</a>

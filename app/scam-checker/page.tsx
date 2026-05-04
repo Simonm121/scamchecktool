@@ -1,58 +1,56 @@
 export default function ScamCheckerPage() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      <main className="mx-auto max-w-4xl px-6 py-12">
-        <h1 className="text-4xl font-extrabold tracking-tight">
-          Free Scam Checker – Is this a scam?
-        </h1>
+    <main className="min-h-screen bg-slate-50 text-slate-900">
+      <section className="mx-auto max-w-4xl px-6 py-12">
+        <a href="/" className="text-sm text-blue-600 hover:underline">
+          ← Back to ScamCheckTool
+        </a>
 
-        <p className="mt-4 text-lg text-gray-600">
-          Use our free scam checker to quickly identify suspicious messages, links, and online scams.
-          Learn the most common warning signs before you reply, click, or send money.
-        </p>
+        <div className="mt-8 rounded-3xl border bg-white p-8 shadow-sm">
+          <h1 className="text-4xl font-black tracking-tight">
+            Free Scam Checker – Is this a scam?
+          </h1>
 
-        <div className="mt-8 rounded-xl border bg-gray-50 p-6">
-          <h2 className="text-2xl font-bold">How to check if something is a scam</h2>
-
-          <ul className="mt-4 space-y-2 text-gray-700">
-            <li>• Urgent requests for money or action</li>
-            <li>• Messages pretending to be family, banks, or companies</li>
-            <li>• Links asking you to log in or verify details</li>
-            <li>• Offers that sound too good to be true</li>
-          </ul>
-        </div>
-
-        <div className="mt-8">
-          <h2 className="text-2xl font-bold">Use the Scam Checker Tool</h2>
-
-          <p className="mt-3 text-gray-600">
-            Go back to the main tool to check a message, link, or image instantly:
+          <p className="mt-4 text-lg leading-8 text-slate-600">
+            Use our free scam checker to quickly identify suspicious messages,
+            links, and common online scam warning signs before you reply, click,
+            or send money.
           </p>
 
           <a
             href="/"
-            className="mt-4 inline-block rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white"
+            className="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-bold text-white hover:bg-blue-700"
           >
             Open Scam Checker Tool
           </a>
         </div>
 
-        <div className="mt-10 border border-dashed p-6 text-center text-sm text-gray-500">
-          Advertisement space
-        </div>
+        <div className="min-h-[90px] opacity-0 pointer-events-none select-none"></div>
 
-        <div className="mt-10">
-          <h2 className="text-2xl font-bold">Common scam types</h2>
+        <section className="mt-8 grid gap-5 md:grid-cols-2">
+          <div className="rounded-3xl border bg-white p-6 shadow-sm">
+            <h2 className="text-2xl font-black">Common scam warning signs</h2>
 
-          <ul className="mt-4 space-y-2 text-gray-700">
-            <li>• “Hi mum” or impersonation scams</li>
-            <li>• Fake delivery and parcel scams</li>
-            <li>• Bank and payment phishing scams</li>
-            <li>• Fake prize or refund scams</li>
-            <li>• Investment and crypto scams</li>
-          </ul>
-        </div>
-      </main>
-    </div>
+            <ul className="mt-4 space-y-2 text-slate-700">
+              <li>• Urgent requests for money or action</li>
+              <li>• Messages pretending to be family, banks, or companies</li>
+              <li>• Links asking you to log in or verify details</li>
+              <li>• Offers that sound too good to be true</li>
+            </ul>
+          </div>
+
+          <div className="rounded-3xl border bg-white p-6 shadow-sm">
+            <h2 className="text-2xl font-black">Common scam types</h2>
+
+            <ul className="mt-4 space-y-2 text-slate-700">
+              <li>• “Hi mum” or impersonation scams</li>
+              <li>• Fake delivery and parcel scams</li>
+              <li>• Bank and payment phishing scams</li>
+              <li>• Fake prize, refund, investment, or crypto scams</li>
+            </ul>
+          </div>
+        </section>
+      </section>
+    </main>
   );
 }

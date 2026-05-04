@@ -1,59 +1,56 @@
 export default function DeepfakeCheckerPage() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      <main className="mx-auto max-w-4xl px-6 py-12">
-        <h1 className="text-4xl font-extrabold tracking-tight">
-          AI Image & Deepfake Checker – Is this image fake?
-        </h1>
+    <main className="min-h-screen bg-slate-50 text-slate-900">
+      <section className="mx-auto max-w-4xl px-6 py-12">
+        <a href="/" className="text-sm text-blue-600 hover:underline">
+          ← Back to ScamCheckTool
+        </a>
 
-        <p className="mt-4 text-lg text-gray-600">
-          Use our free deepfake checker to spot signs of AI-generated images,
-          manipulated photos, and fake visual content before you trust or share it.
-        </p>
+        <div className="mt-8 rounded-3xl border bg-white p-8 shadow-sm">
+          <h1 className="text-4xl font-black tracking-tight">
+            AI Image & Deepfake Checker
+          </h1>
 
-        <div className="mt-8 rounded-xl border bg-gray-50 p-6">
-          <h2 className="text-2xl font-bold">How to spot a fake image</h2>
-
-          <ul className="mt-4 space-y-2 text-gray-700">
-            <li>• Look for distorted hands, fingers, or faces</li>
-            <li>• Check for strange shadows or lighting</li>
-            <li>• Look for blurry or warped text in the image</li>
-            <li>• Check backgrounds for unnatural details</li>
-            <li>• Reverse search the image online</li>
-          </ul>
-        </div>
-
-        <div className="mt-8">
-          <h2 className="text-2xl font-bold">Use the Deepfake Checker Tool</h2>
-
-          <p className="mt-3 text-gray-600">
-            Go back to the main tool to check an image instantly:
+          <p className="mt-4 text-lg leading-8 text-slate-600">
+            Learn how to spot fake images, AI-generated content, and deepfakes
+            using simple visual checks before you trust what you see online.
           </p>
 
           <a
             href="/"
-            className="mt-4 inline-block rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white"
+            className="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-bold text-white hover:bg-blue-700"
           >
-            Open Deepfake Checker Tool
+            Open Image Checker Tool
           </a>
         </div>
 
-        <div className="mt-10 border border-dashed p-6 text-center text-sm text-gray-500">
-          Advertisement space
-        </div>
+        {/* HIDDEN AD SPACE (kept but invisible) */}
+        <div className="min-h-[90px] opacity-0 pointer-events-none select-none"></div>
 
-        <div className="mt-10">
-          <h2 className="text-2xl font-bold">Common deepfake uses</h2>
+        <section className="mt-8 grid gap-5 md:grid-cols-2">
+          <div className="rounded-3xl border bg-white p-6 shadow-sm">
+            <h2 className="text-2xl font-black">Signs an image may be fake</h2>
 
-          <ul className="mt-4 space-y-2 text-gray-700">
-            <li>• Fake celebrity images</li>
-            <li>• AI-generated faces and people</li>
-            <li>• Fake news and misinformation images</li>
-            <li>• Scams using fake profile pictures</li>
-            <li>• Edited screenshots and documents</li>
-          </ul>
-        </div>
-      </main>
-    </div>
+            <ul className="mt-4 space-y-2 text-slate-700">
+              <li>• Unnatural hands, fingers, or facial features</li>
+              <li>• Blurry or distorted backgrounds</li>
+              <li>• Strange shadows or reflections</li>
+              <li>• Text that looks warped or unreadable</li>
+            </ul>
+          </div>
+
+          <div className="rounded-3xl border bg-white p-6 shadow-sm">
+            <h2 className="text-2xl font-black">How to verify images</h2>
+
+            <ul className="mt-4 space-y-2 text-slate-700">
+              <li>• Reverse image search using Google or TinEye</li>
+              <li>• Check the original source of the image</li>
+              <li>• Compare with trusted news or official websites</li>
+              <li>• Be cautious of viral or emotionally charged images</li>
+            </ul>
+          </div>
+        </section>
+      </section>
+    </main>
   );
 }
