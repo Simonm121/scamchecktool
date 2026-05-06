@@ -1,21 +1,35 @@
+import { PageHero } from "@/components/content/page-hero";
+import { SectionCard } from "@/components/content/section-card";
+import { siteConfig } from "@/lib/site";
+
+export const metadata = {
+  title: "Contact",
+  description: "Contact ScamCheckTool for feedback, business enquiries, or support questions.",
+};
+
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-white text-gray-900 px-6 py-12 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Contact</h1>
+    <>
+      <PageHero
+        eyebrow="Contact"
+        title="Get in touch with ScamCheckTool."
+        description="Use this page for questions, feedback, partnerships, or general business enquiries."
+      />
 
-      <p className="mb-6">
-        If you have questions, feedback, or business inquiries, feel free to get in touch.
-      </p>
-
-      <div className="space-y-4">
-        <p>
-          📧 Email: <a href="mailto:contact@scamchecktool.com" className="text-blue-600 underline">contact@scamchecktool.com</a>
-        </p>
-
-        <p>
-          We aim to respond as soon as possible.
-        </p>
-      </div>
-    </main>
+      <section className="mx-auto max-w-4xl px-5 py-14">
+        <SectionCard title="Email">
+          <p className="text-sm leading-7">
+            Contact us at{" "}
+            <a
+              href={`mailto:${siteConfig.supportEmail}`}
+              className="font-semibold text-emerald-700 underline underline-offset-4"
+            >
+              {siteConfig.supportEmail}
+            </a>
+            .
+          </p>
+        </SectionCard>
+      </section>
+    </>
   );
 }

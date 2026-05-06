@@ -1,56 +1,50 @@
+import Link from "next/link";
+
+import { PageHero } from "@/components/content/page-hero";
+import { SectionCard } from "@/components/content/section-card";
+import { MessageChecker } from "@/components/tools/message-checker";
+
+export const metadata = {
+  title: "Message Scam Checker",
+  description: "Check suspicious messages for common scam warning signs.",
+};
+
 export default function ScamCheckerPage() {
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900">
-      <section className="mx-auto max-w-4xl px-6 py-12">
-        <a href="/" className="text-sm text-blue-600 hover:underline">
-          ← Back to ScamCheckTool
-        </a>
+    <>
+      <PageHero
+        eyebrow="Message Checker"
+        title="Review suspicious messages before you reply, pay, or share details."
+        description="Paste a text, email, or direct message and check for common scam signals like urgency, impersonation, and risky requests."
+      >
+        <Link
+          href="/"
+          className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-950"
+        >
+          Back to Homepage
+        </Link>
+      </PageHero>
 
-        <div className="mt-8 rounded-3xl border bg-white p-8 shadow-sm">
-          <h1 className="text-4xl font-black tracking-tight">
-            Free Scam Checker – Is this a scam?
-          </h1>
-
-          <p className="mt-4 text-lg leading-8 text-slate-600">
-            Use our free scam checker to quickly identify suspicious messages,
-            links, and common online scam warning signs before you reply, click,
-            or send money.
-          </p>
-
-          <a
-            href="/"
-            className="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-bold text-white hover:bg-blue-700"
-          >
-            Open Scam Checker Tool
-          </a>
-        </div>
-
-        <div className="min-h-[90px] opacity-0 pointer-events-none select-none"></div>
-
-        <section className="mt-8 grid gap-5 md:grid-cols-2">
-          <div className="rounded-3xl border bg-white p-6 shadow-sm">
-            <h2 className="text-2xl font-black">Common scam warning signs</h2>
-
-            <ul className="mt-4 space-y-2 text-slate-700">
-              <li>• Urgent requests for money or action</li>
-              <li>• Messages pretending to be family, banks, or companies</li>
-              <li>• Links asking you to log in or verify details</li>
-              <li>• Offers that sound too good to be true</li>
-            </ul>
-          </div>
-
-          <div className="rounded-3xl border bg-white p-6 shadow-sm">
-            <h2 className="text-2xl font-black">Common scam types</h2>
-
-            <ul className="mt-4 space-y-2 text-slate-700">
-              <li>• “Hi mum” or impersonation scams</li>
-              <li>• Fake delivery and parcel scams</li>
-              <li>• Bank and payment phishing scams</li>
-              <li>• Fake prize, refund, investment, or crypto scams</li>
-            </ul>
-          </div>
-        </section>
+      <section className="mx-auto max-w-6xl px-5 py-3 md:py-4">
+        <MessageChecker />
       </section>
-    </main>
+
+      <section className="mx-auto grid max-w-6xl gap-6 px-5 pb-14 md:grid-cols-2">
+        <SectionCard title="What this page will do">
+          <ul className="space-y-3 text-sm leading-7">
+            <li>• Review suspicious texts, emails, and direct messages</li>
+            <li>• Highlight pressure tactics, impersonation, and risky asks</li>
+            <li>• Give calmer next-step advice instead of dramatic claims</li>
+          </ul>
+        </SectionCard>
+
+        <SectionCard title="Use it carefully">
+          <p className="text-sm leading-7">
+            This tool looks for common warning signs, but it cannot prove a message is safe.
+            Always verify money requests, account issues, and identity claims independently.
+          </p>
+        </SectionCard>
+      </section>
+    </>
   );
 }

@@ -1,45 +1,28 @@
 import type { Metadata } from "next";
-import Script from "next/script";
+
 import "./globals.css";
 
+import { PageShell } from "@/components/site/page-shell";
+import { siteConfig } from "@/lib/site";
+
 export const metadata: Metadata = {
-  title: "ScamCheckTool - AI Scam & Deepfake Checker by Privacy Toolbox",
-  description:
-    "Free scam checker for suspicious messages, links, and images. Check scam warning signs, phishing links, and deepfake clues instantly.",
-  keywords: [
-    "scam checker",
-    "is this a scam",
-    "AI scam checker",
-    "deepfake checker",
-    "phishing link checker",
-    "suspicious link checker",
-    "message scam checker",
-  ],
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name} | Scam Safety Tools ${siteConfig.brandLine}`,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en">
       <body>
-        {children}
-
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
-          strategy="afterInteractive"
-        />
-
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-XXXXXXXXXX');
-          `}
-        </Script>
+        <PageShell>{children}</PageShell>
       </body>
     </html>
   );

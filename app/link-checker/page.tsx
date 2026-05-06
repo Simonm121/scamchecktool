@@ -1,55 +1,50 @@
+import Link from "next/link";
+
+import { PageHero } from "@/components/content/page-hero";
+import { SectionCard } from "@/components/content/section-card";
+import { LinkCheckerTool } from "@/components/tools/link-checker";
+
+export const metadata = {
+  title: "Suspicious Link Checker",
+  description: "Check suspicious links for common phishing and scam warning signs.",
+};
+
 export default function LinkCheckerPage() {
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900">
-      <section className="mx-auto max-w-4xl px-6 py-12">
-        <a href="/" className="text-sm text-blue-600 hover:underline">
-          ← Back to ScamCheckTool
-        </a>
+    <>
+      <PageHero
+        eyebrow="Link Checker"
+        title="Check risky URLs before you click."
+        description="Paste a suspicious URL and review common phishing signals before you visit the page or enter any details."
+      >
+        <Link
+          href="/"
+          className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-950"
+        >
+          Back to Homepage
+        </Link>
+      </PageHero>
 
-        <div className="mt-8 rounded-3xl border bg-white p-8 shadow-sm">
-          <h1 className="text-4xl font-black tracking-tight">
-            Suspicious Link Checker – Is this link safe?
-          </h1>
-
-          <p className="mt-4 text-lg leading-8 text-slate-600">
-            Use our free link checker to identify suspicious URLs, phishing links,
-            and fake websites before you click.
-          </p>
-
-          <a
-            href="/"
-            className="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-bold text-white hover:bg-blue-700"
-          >
-            Open Link Checker Tool
-          </a>
-        </div>
-
-        <div className="min-h-[90px] opacity-0 pointer-events-none select-none"></div>
-
-        <section className="mt-8 grid gap-5 md:grid-cols-2">
-          <div className="rounded-3xl border bg-white p-6 shadow-sm">
-            <h2 className="text-2xl font-black">How to check if a link is safe</h2>
-
-            <ul className="mt-4 space-y-2 text-slate-700">
-              <li>• Check whether it starts with https://</li>
-              <li>• Look carefully at the real domain name</li>
-              <li>• Be cautious with login, verify, or secure wording</li>
-              <li>• Be careful with shortened links such as bit.ly or tinyurl</li>
-            </ul>
-          </div>
-
-          <div className="rounded-3xl border bg-white p-6 shadow-sm">
-            <h2 className="text-2xl font-black">Common phishing link tricks</h2>
-
-            <ul className="mt-4 space-y-2 text-slate-700">
-              <li>• Fake banking login pages</li>
-              <li>• Delivery tracking scam links</li>
-              <li>• Account verification scams</li>
-              <li>• Brand impersonation for PayPal, Amazon, Apple, or banks</li>
-            </ul>
-          </div>
-        </section>
+      <section className="mx-auto max-w-6xl px-5 py-3 md:py-4">
+        <LinkCheckerTool />
       </section>
-    </main>
+
+      <section className="mx-auto grid max-w-6xl gap-6 px-5 pb-14 md:grid-cols-2">
+        <SectionCard title="What this page will do">
+          <ul className="space-y-3 text-sm leading-7">
+            <li>• Review suspicious URLs and shortened links</li>
+            <li>• Highlight login, verification, and account-risk language</li>
+            <li>• Encourage users to verify sites before entering details</li>
+          </ul>
+        </SectionCard>
+
+        <SectionCard title="Use it carefully">
+          <p className="text-sm leading-7">
+            A clean-looking link is not always a safe one. Use the checker as a first review step,
+            then confirm the site independently before logging in or downloading anything.
+          </p>
+        </SectionCard>
+      </section>
+    </>
   );
 }
