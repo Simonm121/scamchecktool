@@ -16,7 +16,13 @@ import {
 
 type Result = {
   risk: string;
+  score: number;
+  summary: string;
+  meaning: string;
+  safeReply: string;
   reasons: string[];
+  recommendations: string[];
+  confidence: string;
 };
 
 export default function Home() {
@@ -26,81 +32,258 @@ export default function Home() {
   const [imageName, setImageName] = useState("");
   const [result, setResult] = useState<Result | null>(null);
 
+  const getRiskLevel = (score: number) => {
+    if (score >= 70) return "High Risk";
+    if (score >= 35) return "Suspicious";
+    return "Low Risk";
+  };
+
   const analyzeMessage = () => {
     const text = message.toLowerCase();
+    let score = 0;
     const reasons: string[] = [];
+    const recommendations: string[] = [];
 
     if (!text.trim()) {
-      setResult({ risk: "No message entered", reasons: ["Paste a suspicious message first."] });
+      setResult({
+        risk: "No message entered",
+        score: 0,
+        summary: "Paste a suspicious message first so ScamCheckTool can review it.",
+        meaning: "There is not enough information to analyse yet.",
+        safeReply: "Paste a message above to get a safer reply suggestion.",
+        reasons: ["No message was entered."],
+        recommendations: ["Paste the full message you want to check."],
+        confidence: "No analysis was performed.",
+      });
       return;
     }
 
-    if (text.includes("urgent") || text.includes("immediately") || text.includes("today") || text.includes("now")) {
-      reasons.push("Creates urgency or pressure");
+    if (
+      text.includes("urgent") ||
+      text.includes("immediately") ||
+      text.includes("today") ||
+      text.includes("now") ||
+      text.includes("asap")
+    ) {
+      score += 25;
+      reasons.push("Uses urgent or high-pressure language.");
     }
 
-    if (text.includes("bank") || text.includes("transfer") || text.includes("send money") || text.includes("payment") || text.includes("account")) {
-      reasons.push("Mentions money, banking, payment, or account access");
+    if (
+      text.includes("bank") ||
+      text.includes("transfer") ||
+      text.includes("send money") ||
+      text.includes("payment") ||
+      text.includes("account") ||
+      text.includes("crypto")
+    ) {
+      score += 25;
+      reasons.push("Mentions money, banking, payments, crypto, or account access.");
     }
 
-    if (text.includes("mum") || text.includes("dad") || text.includes("new number")) {
-      reasons.push("Possible impersonation attempt");
+    if (
+      text.includes("mum") ||
+      text.includes("dad") ||
+      text.includes("new number") ||
+      text.includes("lost my phone") ||
+      text.includes("this is my new number")
+    ) {
+      score += 25;
+      reasons.push("Could be impersonating a family member or trusted contact.");
     }
 
-    if (text.includes("click") || text.includes("verify") || text.includes("password") || text.includes("login")) {
-      reasons.push("Asks you to click, verify, log in, or share details");
+    if (
+      text.includes("click") ||
+      text.includes("verify") ||
+      text.includes("password") ||
+      text.includes("login") ||
+      text.includes("code")
+    ) {
+      score += 25;
+      reasons.push("Asks you to click, verify, log in, share a code, or provide sensitive details.");
     }
 
-    const risk =
-      reasons.length >= 3 ? "High Risk" : reasons.length >= 1 ? "Suspicious" : "Low Risk";
+    const risk = getRiskLevel(score);
+
+    if (risk === "High Risk") {
+      recommendations.push("Do not click links, send money, or share personal information.");
+      recommendations.push("Contact the person or company using a trusted phone number or official website.");
+      recommendations.push("Report the message as spam or phishing if it came by text, email, or social media.");
+    } else if (risk === "Suspicious") {
+      recommendations.push("Be cautious before replying or clicking anything.");
+      recommendations.push("Check the sender carefully and verify the request through another trusted channel.");
+      recommendations.push("Do not share passwords, codes, banking details, or identity documents.");
+    } else {
+      recommendations.push("No major warning signs were found, but still stay cautious.");
+      recommendations.push("Check the sender, links, spelling, and request before taking action.");
+    }
 
     setResult({
       risk,
-      reasons: reasons.length ? reasons : ["No obvious scam warning signs found."],
+      score,
+      summary:
+        risk === "High Risk"
+          ? "This message shows multiple scam warning signs. It may be trying to pressure you into acting quickly, sharing sensitive information, or sending money."
+          : risk === "Suspicious"
+          ? "This message contains some warning signs. It may not be a scam, but you should verify it carefully before responding."
+          : "This message does not show obvious scam indicators based on this quick check. That does not guarantee it is safe.",
+      meaning:
+        risk === "High Risk"
+          ? "This could be a scam attempt. The safest choice is to pause, avoid replying directly, and verify the request through a trusted method."
+          : risk === "Suspicious"
+          ? "This may be legitimate, but there are enough warning signs that you should slow down and confirm who sent it."
+          : "This looks lower risk based on the warning signs checked, but scams can still be subtle.",
+      safeReply:
+        risk === "High Risk"
+          ? "I cannot act on this request here. I will contact you or the company directly using details I already trust."
+          : risk === "Suspicious"
+          ? "Before I do anything, can you confirm this through another trusted method?"
+          : "Thanks. I will still double-check the details before taking action.",
+      reasons: reasons.length ? reasons : ["No obvious scam warning signs were detected."],
+      recommendations,
+      confidence:
+        risk === "Low Risk"
+          ? "Basic confidence: this is a rule-based check, not a full security scan."
+          : "Medium confidence: several common scam patterns were found.",
     });
   };
 
   const analyzeLink = () => {
     const url = link.toLowerCase();
+    let score = 0;
     const reasons: string[] = [];
+    const recommendations: string[] = [];
 
     if (!url.trim()) {
-      setResult({ risk: "No link entered", reasons: ["Paste a suspicious link first."] });
+      setResult({
+        risk: "No link entered",
+        score: 0,
+        summary: "Paste a suspicious link first so ScamCheckTool can review it.",
+        meaning: "There is no link to analyse yet.",
+        safeReply: "Paste the full link above to check it.",
+        reasons: ["No link was entered."],
+        recommendations: ["Paste the full link you want to check."],
+        confidence: "No analysis was performed.",
+      });
       return;
     }
 
-    if (!url.startsWith("https://")) reasons.push("The link does not start with https://");
-    if (url.includes("@")) reasons.push("The link contains an @ symbol, which can hide the real destination");
-    if (url.includes("login") || url.includes("verify") || url.includes("account") || url.includes("secure")) {
-      reasons.push("The link uses login, verify, account, or secure wording");
-    }
-    if (url.includes("bit.ly") || url.includes("tinyurl") || url.includes("t.co")) {
-      reasons.push("The link appears to use a URL shortener");
+    if (!url.startsWith("https://")) {
+      score += 25;
+      reasons.push("The link does not start with https://.");
     }
 
-    const risk =
-      reasons.length >= 3 ? "High Risk" : reasons.length >= 1 ? "Suspicious" : "Low Risk";
+    if (url.includes("@")) {
+      score += 25;
+      reasons.push("The link contains an @ symbol, which can hide the real destination.");
+    }
+
+    if (
+      url.includes("login") ||
+      url.includes("verify") ||
+      url.includes("account") ||
+      url.includes("secure")
+    ) {
+      score += 20;
+      reasons.push("The link uses words commonly found in fake login or verification pages.");
+    }
+
+    if (url.includes("bit.ly") || url.includes("tinyurl") || url.includes("t.co")) {
+      score += 25;
+      reasons.push("The link appears to use a URL shortener, which can hide the final website.");
+    }
+
+    if (
+      url.includes("-") &&
+      (url.includes("paypal") ||
+        url.includes("bank") ||
+        url.includes("apple") ||
+        url.includes("amazon"))
+    ) {
+      score += 25;
+      reasons.push("The link may be using a brand name in a suspicious-looking domain.");
+    }
+
+    const risk = getRiskLevel(score);
+
+    if (risk === "High Risk") {
+      recommendations.push("Do not open the link or enter any information.");
+      recommendations.push("Visit the company website directly by typing the official address yourself.");
+      recommendations.push("If you already entered details, change your password and contact your bank or provider.");
+    } else if (risk === "Suspicious") {
+      recommendations.push("Do not log in through this link until you verify the website.");
+      recommendations.push("Check the domain name carefully for misspellings or extra words.");
+      recommendations.push("Search for the official company website separately.");
+    } else {
+      recommendations.push("No major link warning signs were found in this quick check.");
+      recommendations.push("Still avoid entering passwords or payment details unless you fully trust the site.");
+    }
 
     setResult({
       risk,
-      reasons: reasons.length ? reasons : ["No obvious link warning signs found."],
+      score,
+      summary:
+        risk === "High Risk"
+          ? "This link has several risky patterns. It may be designed to imitate a trusted website or trick you into entering sensitive information."
+          : risk === "Suspicious"
+          ? "This link has some suspicious features. You should verify the destination before opening it or entering details."
+          : "This link does not show obvious warning signs from this quick check, but that does not guarantee it is safe.",
+      meaning:
+        risk === "High Risk"
+          ? "This link may be part of a phishing attempt. Avoid using it and go directly to the official website instead."
+          : risk === "Suspicious"
+          ? "This link may still be legitimate, but it has patterns often seen in suspicious URLs."
+          : "This link looks lower risk based on visible URL checks only.",
+      safeReply:
+        risk === "High Risk"
+          ? "I will not use this link. I will visit the official website directly instead."
+          : risk === "Suspicious"
+          ? "Can you send the official website address instead of this link?"
+          : "I will still check the website carefully before entering any information.",
+      reasons: reasons.length ? reasons : ["No obvious link warning signs were detected."],
+      recommendations,
+      confidence:
+        risk === "Low Risk"
+          ? "Basic confidence: this checks visible URL patterns only."
+          : "Medium confidence: suspicious URL patterns were detected.",
     });
   };
 
   const analyzeImage = () => {
     if (!imageName) {
-      setResult({ risk: "No image selected", reasons: ["Choose an image first."] });
+      setResult({
+        risk: "No image selected",
+        score: 0,
+        summary: "Choose an image first so ScamCheckTool can give review guidance.",
+        meaning: "There is no image to review yet.",
+        safeReply: "Upload an image above to get review guidance.",
+        reasons: ["No image was selected."],
+        recommendations: ["Upload the image you want to review."],
+        confidence: "No analysis was performed.",
+      });
       return;
     }
 
     setResult({
       risk: "Needs Review",
+      score: 50,
+      summary:
+        "This version does not perform full AI image detection yet, but it can guide you through common deepfake and scam-image warning signs.",
+      meaning:
+        "Images can be edited, AI-generated, or reused from another source. The safest approach is to verify where the image came from before trusting it.",
+      safeReply:
+        "Before I trust this image, I want to verify the original source and check whether it appears elsewhere online.",
       reasons: [
-        "Check whether the image comes from a trusted source.",
-        "Look for unusual hands, teeth, text, shadows, reflections, or blurry backgrounds.",
-        "Reverse image search the picture if it seems suspicious.",
-        "This version checks warning signs only, not full AI detection yet.",
+        "AI-generated or edited images may contain distorted hands, teeth, text, shadows, reflections, or backgrounds.",
+        "Scam images often appear with urgent messages, fake celebrity endorsements, investment claims, or emotional stories.",
+        "The source of the image matters. Unknown senders, new accounts, and pressure to act quickly increase risk.",
       ],
+      recommendations: [
+        "Reverse image search the picture to see where else it appears online.",
+        "Check whether the image came from an official or trusted source.",
+        "Be cautious if the image is connected to money, prizes, romance, crypto, charity, or urgent requests.",
+      ],
+      confidence: "Guidance only: full image-forensics detection is not enabled yet.",
     });
   };
 
@@ -112,11 +295,11 @@ export default function Home() {
 
   const resultColor =
     result?.risk === "High Risk"
-      ? "border-red-200 bg-red-50 text-red-800"
+      ? "border-red-200 bg-red-50 text-red-900"
       : result?.risk === "Suspicious" || result?.risk === "Needs Review"
-      ? "border-yellow-200 bg-yellow-50 text-yellow-800"
+      ? "border-yellow-200 bg-yellow-50 text-yellow-900"
       : result?.risk === "Low Risk"
-      ? "border-green-200 bg-green-50 text-green-800"
+      ? "border-green-200 bg-green-50 text-green-900"
       : "border-slate-200 bg-slate-50 text-slate-800";
 
   return (
@@ -156,8 +339,8 @@ export default function Home() {
             </h1>
 
             <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-600">
-              Paste suspicious content and get a simple risk result with clear warning signs.
-              No account needed.
+              Paste suspicious content and get a clear risk score, explanation, warning signs,
+              safe reply suggestion, and recommended next steps. No account needed.
             </p>
 
             <div className="mt-7 flex flex-wrap justify-center gap-3 text-sm text-slate-600">
@@ -199,7 +382,7 @@ export default function Home() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     className="mt-2 h-32 w-full rounded-2xl border p-3 text-sm outline-blue-500"
-                    placeholder="Example: Hi mum, I need you to urgently send money..."
+                    placeholder="Example: Hi mum, this is my new number. I urgently need you to send money today..."
                   />
                 </>
               )}
@@ -244,16 +427,53 @@ export default function Home() {
               </p>
 
               {result && (
-                <div className={`mt-5 rounded-2xl border p-4 ${resultColor}`}>
-                  <div className="flex items-center gap-2 font-black">
-                    {result.risk === "Low Risk" ? <CheckCircle size={18} /> : <AlertTriangle size={18} />}
-                    {result.risk}
+                <div className={`mt-5 rounded-2xl border p-5 ${resultColor}`}>
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2 text-lg font-black">
+                      {result.risk === "Low Risk" ? <CheckCircle size={20} /> : <AlertTriangle size={20} />}
+                      {result.risk}
+                    </div>
+                    <div className="rounded-full bg-white/70 px-3 py-1 text-sm font-black">
+                      Score: {result.score}/100
+                    </div>
                   </div>
-                  <ul className="mt-2 space-y-1 text-sm">
-                    {result.reasons.map((reason, index) => (
-                      <li key={index}>• {reason}</li>
-                    ))}
-                  </ul>
+
+                  <p className="mt-3 text-sm leading-6">{result.summary}</p>
+
+                  <div className="mt-4 rounded-2xl bg-white/70 p-4">
+                    <h4 className="font-black">What this means</h4>
+                    <p className="mt-2 text-sm leading-6">{result.meaning}</p>
+                  </div>
+
+                  <div className="mt-4 rounded-2xl bg-white/70 p-4">
+                    <h4 className="font-black">Safe reply suggestion</h4>
+                    <p className="mt-2 text-sm leading-6">“{result.safeReply}”</p>
+                  </div>
+
+                  <div className="mt-4 grid gap-4 md:grid-cols-2">
+                    <div className="rounded-2xl bg-white/70 p-4">
+                      <h4 className="font-black">Warning signs found</h4>
+                      <ul className="mt-2 space-y-2 text-sm">
+                        {result.reasons.map((reason, index) => (
+                          <li key={index}>• {reason}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="rounded-2xl bg-white/70 p-4">
+                      <h4 className="font-black">Recommended next steps</h4>
+                      <ul className="mt-2 space-y-2 text-sm">
+                        {result.recommendations.map((item, index) => (
+                          <li key={index}>• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <p className="mt-4 rounded-2xl bg-white/70 p-3 text-xs leading-5">
+                    {result.confidence} ScamCheckTool provides guidance only and cannot guarantee whether
+                    something is safe or unsafe.
+                  </p>
                 </div>
               )}
             </div>
@@ -322,7 +542,7 @@ export default function Home() {
               <Zap className="text-blue-600" />
               <h3 className="mt-3 font-black">Fast and simple</h3>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                Simple results help users understand warning signs quickly without technical language.
+                Clear results help users understand warning signs quickly without technical language.
               </p>
             </div>
           </div>
@@ -337,7 +557,11 @@ export default function Home() {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <a className="inline-flex items-center gap-1 underline" href="https://quickprivacytools.com" target="_blank">
+            <a
+              className="inline-flex items-center gap-1 underline"
+              href="https://quickprivacytools.com"
+              target="_blank"
+            >
               Quick Privacy Tools <ExternalLink size={12} />
             </a>
             <a className="underline" href="/privacy">Privacy Policy</a>
