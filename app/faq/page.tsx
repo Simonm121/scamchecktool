@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { PageHero } from "@/components/content/page-hero";
 import { SectionCard } from "@/components/content/section-card";
 
@@ -26,16 +28,25 @@ export default function FaqPage() {
     <>
       <PageHero
         eyebrow="FAQ"
-        title="Common questions about the tools and how to use them safely."
+        title="FAQ"
         description="This page gives clear expectations for what ScamCheckTool can and cannot do."
-      />
+      >
+        <Link
+          href="/"
+          className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-950"
+        >
+          Back to Homepage
+        </Link>
+      </PageHero>
 
-      <section className="mx-auto max-w-4xl space-y-6 px-5 py-14">
-        {faqs.map((faq) => (
-          <SectionCard key={faq.title} title={faq.title}>
-            <p className="text-sm leading-7">{faq.body}</p>
-          </SectionCard>
-        ))}
+      <section className="mx-auto max-w-6xl px-5 pt-8 pb-14">
+        <div className="grid gap-6 md:grid-cols-2">
+          {faqs.map((faq) => (
+            <SectionCard key={faq.title} title={faq.title}>
+              <p className="text-sm leading-7">{faq.body}</p>
+            </SectionCard>
+          ))}
+        </div>
       </section>
     </>
   );
