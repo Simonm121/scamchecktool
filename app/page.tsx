@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Link as LinkIcon, MessageSquare, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, Link as LinkIcon, MessageSquare, Sparkles } from "lucide-react";
 
 import { PageHero } from "@/components/content/page-hero";
 import { SectionCard } from "@/components/content/section-card";
@@ -36,7 +36,7 @@ export default function HomePage() {
         title="Check suspicious messages, links, and images with clear safety guidance."
         description="ScamCheckTool helps people pause, review warning signs, and make safer decisions before they reply, click, pay, or share personal information."
       >
-        <div className="mt-3 flex translate-y-[1.6rem] flex-wrap gap-2 md:translate-y-[1.9rem]">
+        <div className="mt-4 flex flex-wrap gap-3">
           <Link
             href="/scam-checker"
             className="rounded-full bg-emerald-700 px-5 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-emerald-800"
@@ -52,19 +52,21 @@ export default function HomePage() {
         </div>
       </PageHero>
 
-      <section className="mx-auto max-w-6xl px-5 pt-10 pb-14">
+      <section className="mx-auto max-w-6xl px-5 pt-6 pb-14">
         <div className="grid gap-6 md:grid-cols-3">
           {toolCards.map((card) => {
             const Icon = card.icon;
 
             return (
               <Link
-                key={card.href}
-                href={card.href}
-                className="group rounded-3xl border border-slate-300 bg-[#d9d9d9] p-6 shadow-sm shadow-slate-300/60 transition hover:-translate-y-0.5 hover:shadow-md"
+  key={card.href}
+  href={card.href}
+  className="group rounded-lg border border-slate-300 bg-[#d9d9d9] p-6 shadow-sm shadow-slate-300/60 transition hover:-translate-y-0.5 hover:shadow-md"
               >
-                <Icon className="text-emerald-700" />
-                <h2 className="mt-4 text-xl font-black tracking-tight text-slate-950">
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#e5e7eb] text-emerald-700">
+  <Icon size={20} />
+</div>
+                <h2 className="mt-4 text-2xl font-black leading-snug text-slate-950">
                   {card.title}
                 </h2>
                 <p className="mt-3 text-sm leading-7 text-slate-600">{card.description}</p>
