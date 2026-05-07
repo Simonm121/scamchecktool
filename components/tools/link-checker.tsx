@@ -98,7 +98,7 @@ export function LinkCheckerTool() {
         id="link-input"
         value={link}
         onChange={(event) => setLink(event.target.value)}
-        className="mt-2 w-full rounded-3xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-emerald-500"
+        className="mt-2 w-full rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-emerald-500"className="mt-2 w-full rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-emerald-500"
         placeholder="Example: https://secure-login-example.com"
       />
 

@@ -57,7 +57,7 @@ export function ImageCheckerTool() {
           setImageName(event.target.files?.[0]?.name || "");
           setResult(null);
         }}
-        className="mt-2 w-full rounded-3xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-emerald-500"
+        className="mt-2 h-40 w-full rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-emerald-500"
       />
 
       {imageName ? <p className="mt-3 text-sm text-slate-600">Selected image: {imageName}</p> : null}

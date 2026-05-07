@@ -105,7 +105,7 @@ export function MessageChecker() {
         id="message-input"
         value={message}
         onChange={(event) => setMessage(event.target.value)}
-        className="mt-2 h-40 w-full rounded-3xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-emerald-500"
+        className="mt-2 h-40 w-full rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-emerald-500"
         placeholder="Example: Hi mum, I need you to urgently send money to this new account..."
       />
 
