@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CreditCard, ShieldCheck, TriangleAlert } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 
 import { PageHero } from "@/components/content/page-hero";
 import { RecoveryCTA } from "@/components/content/recovery-cta";
@@ -137,7 +137,7 @@ export default function ClickedPhishingLinkPage() {
             affiliateUrl="https://example.com/bitdefender-phishing-recovery"
             disclosureText="This is a placeholder affiliate link for a security suite. If real affiliate links are added later, the page should keep this disclosure visible near the CTA."
             ctaText="Review Security Option"
-            icon={ShieldCheck}
+            icon="shield-check"
             productType="Security suite"
             trackingLabel="clicked-phishing-link_bitdefender_cta"
           />
@@ -148,7 +148,7 @@ export default function ClickedPhishingLinkPage() {
             affiliateUrl="https://example.com/experian-identity-monitoring"
             disclosureText="This is a placeholder affiliate link for identity monitoring. Keep the disclosure visible if a real partner offer is added."
             ctaText="Review Identity Monitoring"
-            icon={CreditCard}
+            icon="credit-card"
             productType="Identity monitoring"
             trackingLabel="clicked-phishing-link_experian_cta"
           />
