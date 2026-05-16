@@ -10,9 +10,16 @@ export const metadata = {
 
 const guideCards = [
   {
+    href: "/clicked-phishing-link",
+    title: "What to do after clicking a phishing link",
+    description:
+      "Immediate steps to take if you opened a suspicious page, entered a password, or are worried about account misuse.",
+  },
+  {
     href: "/guides/how-to-tell-if-a-message-is-a-scam",
     title: "How to tell if a message is a scam",
-    description: "A starter guide for urgency, impersonation, payment requests, and fake authority.",
+    description:
+      "A starter guide for urgency, impersonation, payment requests, and fake authority.",
   },
   {
     href: "/guides/how-to-check-if-a-link-is-safe",
@@ -31,12 +38,12 @@ export default function GuidesPage() {
     <>
       <PageHero
         eyebrow="Safety Guides"
-        title="Educational content that can grow with the site."
-        description="These guide pages are the start of the SEO and trust foundation for ScamCheckTool."
+        title="Educational and recovery content that can grow with the site."
+        description="These guide pages are the start of the SEO, trust, and next-step recovery foundation for ScamCheckTool."
       />
 
       <section className="mx-auto max-w-6xl px-5 py-14">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {guideCards.map((guide) => (
             <Link
               key={guide.href}
