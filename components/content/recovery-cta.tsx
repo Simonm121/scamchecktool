@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { LucideIcon } from "lucide-react";
+import { CreditCard, type LucideIcon, ShieldCheck } from "lucide-react";
 
 import { AffiliateDisclosure } from "@/components/content/affiliate-disclosure";
 
@@ -11,9 +11,14 @@ type RecoveryCTAProps = {
   affiliateUrl: string;
   disclosureText?: string;
   ctaText: string;
-  icon: LucideIcon;
+  icon: "shield-check" | "credit-card";
   productType: string;
   trackingLabel: string;
+};
+
+const iconMap: Record<RecoveryCTAProps["icon"], LucideIcon> = {
+  "credit-card": CreditCard,
+  "shield-check": ShieldCheck,
 };
 
 declare global {
@@ -28,10 +33,12 @@ export function RecoveryCTA({
   affiliateUrl,
   disclosureText,
   ctaText,
-  icon: Icon,
+  icon,
   productType,
   trackingLabel,
 }: RecoveryCTAProps) {
+  const Icon = iconMap[icon];
+
   const handleClick = () => {
     window.gtag?.("event", "affiliate_cta_click", {
       event_category: "affiliate_cta",
