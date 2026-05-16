@@ -5,6 +5,7 @@ import { siteConfig } from "@/lib/site";
 const staticRoutes = [
   "",
   "/about",
+  "/clicked-phishing-link",
   "/contact",
   "/faq",
   "/guides",
@@ -26,6 +27,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return routes.map((route) => ({
     url: `${siteConfig.url}${route}`,
-    lastModified: new Date("2026-05-06"),
+    lastModified: new Date("2026-05-16"),
   }));
 }
