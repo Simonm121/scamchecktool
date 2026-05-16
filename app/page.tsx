@@ -59,13 +59,13 @@ export default function HomePage() {
 
             return (
               <Link
-  key={card.href}
-  href={card.href}
-  className="group rounded-lg border border-slate-300 bg-[#d9d9d9] p-6 shadow-sm shadow-slate-300/60 transition hover:-translate-y-0.5 hover:shadow-md"
+                key={card.href}
+                href={card.href}
+                className="group rounded-lg border border-slate-300 bg-[#d9d9d9] p-6 shadow-sm shadow-slate-300/60 transition hover:-translate-y-0.5 hover:shadow-md"
               >
                 <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#e5e7eb] text-emerald-700">
-  <Icon size={20} />
-</div>
+                  <Icon size={20} />
+                </div>
                 <h2 className="mt-4 text-2xl font-black leading-snug text-slate-950">
                   {card.title}
                 </h2>
@@ -76,6 +76,40 @@ export default function HomePage() {
               </Link>
             );
           })}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-5 pb-14">
+        <div className="rounded-[2rem] border border-emerald-200 bg-emerald-50/70 px-6 py-8 shadow-sm shadow-emerald-900/5">
+          <div className="grid gap-5 md:grid-cols-[1.5fr_0.9fr] md:items-end">
+            <div className="space-y-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-800">
+                Recovery guide
+              </p>
+              <h2 className="text-3xl font-black tracking-tight text-slate-950">
+                Clicked a phishing link already?
+              </h2>
+              <p className="max-w-2xl text-sm leading-7 text-slate-700">
+                Start with calm, practical next steps. This guide covers what to do if you opened
+                a suspicious page, entered a password, or are worried about account abuse.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3 md:justify-end">
+              <Link
+                href="/clicked-phishing-link"
+                className="rounded-full bg-emerald-700 px-5 py-3 text-sm font-semibold !text-white shadow-sm transition hover:bg-emerald-800"
+              >
+                Open Recovery Guide
+              </Link>
+              <Link
+                href="/guides"
+                className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-950"
+              >
+                More Guides
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -94,10 +128,10 @@ export default function HomePage() {
           </p>
         </SectionCard>
 
-        <SectionCard title="Monetization later">
+        <SectionCard title="Recovery-focused monetisation">
           <p className="text-sm leading-7">
-            We are building the trust pages, structure, and content foundation first so future ads
-            do not make the site feel low quality.
+            Helpful next-step protection offers should appear after the user has understood what to
+            do, not before the check itself.
           </p>
         </SectionCard>
       </section>
